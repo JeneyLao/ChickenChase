@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour {
     int count3 = 0;
 
     bool startSpawnEgg = true;
+    GameObject[] gameObjects;
 
     void Awake()
     {
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
+
         Debug.Log("GAMEMANAGER START");
 
         currentState = "INSTRUCTIONS";
@@ -74,8 +76,7 @@ public class GameManager : MonoBehaviour {
             GameObject.FindGameObjectWithTag("NextLevel").transform.position.y,
             -6);
         numberOfTurns = 0;
-        dir = new List<String>();
-        pos = new List<Vector2>();
+
         currentEgg = GameObject.FindGameObjectWithTag("Chicken");
 
         grid = new List<List<int>>();
@@ -90,7 +91,6 @@ public class GameManager : MonoBehaviour {
             grid.Add(c);
             c = new List<int>();
         }
-        addDir("UP", chicken.transform.position);
 
        // Debug.Log(grid.Count);
 
@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update() 
     {
-        if (currentState == "INSTRUCTIONS")
+        if (Application.loadedLevelName != "GameOver" && Application.loadedLevelName != "Start" && Application.loadedLevelName != "Start2" && currentState == "INSTRUCTIONS")
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -131,14 +131,14 @@ public class GameManager : MonoBehaviour {
                     GameObject.FindGameObjectWithTag("LevelInstruction").transform.position.x,
                     GameObject.FindGameObjectWithTag("LevelInstruction").transform.position.y,
                     GameObject.FindGameObjectWithTag("LevelInstruction").transform.position.z); 
-                Debug.Log("Current sTate: " + currentState);
+                //Debug.Log("Current sTate: " + currentState);
             }
         }
         else
         {
             if (Application.loadedLevelName == "GameOver")
             {
-                Debug.Log("Destroyed1");
+                //Debug.Log("Destroyed1");
                 Destroy(this.gameObject);
                 //Debug.Log("Destroyed2222");
             }
@@ -151,29 +151,34 @@ public class GameManager : MonoBehaviour {
 
             if (numberOfEggs == targetEggs)
             {
-                level++;
+                startSpawnEgg = true;
                 reset();
-                if (Application.loadedLevelName == "Level1")
+                //if (Application.loadedLevelName == "Level1")
+                if (level == 1)
                 {
                     targetEggs = 3;
-                    Application.LoadLevel("Level2");
-                    startSpawnEgg = true;
+                    //Application.LoadLevel("Level2");
+                    //startSpawnEgg = true;
                 }
-                else if (Application.loadedLevelName == "Level2")
+                //else if (Application.loadedLevelName == "Level2")
+                else if (level == 2)
                 {
-                    targetEggs = 4;
-                    Application.LoadLevel("Level3");
+                    targetEggs = 5;
+                    //Application.LoadLevel("Level3");
                 }
+                DestroyAllObjects();
+                level++;
             }
 
-            if (Application.loadedLevelName == "Level3" && count3 == 0)
+            //if (Application.loadedLevelName == "Level3" && count3 == 0)
+            if (level == 3 && count3 == 0)
             {
                 //Debug.Log("WENT INTO HERE FOR RESET HAHAHAHA");
                 for (int i = 0; i < row; i++)
                 {
                     for (int j = 0; j < col; j++)
                     {
-                        if ((i == row / 4 || i == row * 3 / 4) && j > 20 && j < 30)
+                        if ((i == row / 4 || i == row * 3 / 4) && j > 10 && j < 40)
                         {
                             Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
                             Instantiate(hay, pos1, transform.rotation);
@@ -186,6 +191,16 @@ public class GameManager : MonoBehaviour {
             }
         }
 	}
+
+    void DestroyAllObjects()
+    {
+        gameObjects = GameObject.FindGameObjectsWithTag("N");
+
+        for (var i = 0; i < gameObjects.Length; i++)
+        {
+            Destroy(gameObjects[i]);
+        }
+    }
 
     public bool returnStartSpawnEgg()
     {
@@ -205,18 +220,17 @@ public class GameManager : MonoBehaviour {
 
     public void reset()
     {
-        Debug.Log("RESET");
-        Debug.Log("LOADED LEVEL NAME: " + Application.loadedLevelName);
+        //Debug.Log("RESET");
+        //Debug.Log("LOADED LEVEL NAME: " + Application.loadedLevelName);
         currentState = "INSTRUCTIONS";
         GameObject.FindGameObjectWithTag("NextLevel").transform.position = new Vector3(
     GameObject.FindGameObjectWithTag("NextLevel").transform.position.x,
     GameObject.FindGameObjectWithTag("NextLevel").transform.position.y,
     -6);
         numberOfEggs = 0;
-        dir = new List<String>();
-        pos = new List<Vector2>();
+
         currentEgg = GameObject.FindGameObjectWithTag("Chicken");
-        Debug.Log("This is in reset: " + currentEgg.gameObject.name);
+        //Debug.Log("This is in reset: " + currentEgg.gameObject.name);
 
         grid = new List<List<int>>();
         c = new List<int>();
@@ -230,7 +244,6 @@ public class GameManager : MonoBehaviour {
             grid.Add(c);
             c = new List<int>();
         }
-        addDir("UP", chicken.transform.position);
 
         for (int i = 0; i < row; i++)
         {
@@ -433,51 +446,6 @@ public class GameManager : MonoBehaviour {
         return currentEgg.gameObject.name;
     }
 
-    public int returnDirCount()
-    {
-        return dir.Count;
-    }
-    public List<string> returnListDir()
-    {
-        return dir;
-    }
-    public void addDir(string d, Vector2 v)
-    {
-        //Debug.Log("Added Direction: " + d);
-        dir.Add(d);
-        pos.Add(v);
-    }
-    public void removeDir(string d, Vector2 v)
-    {
-        //Debug.Log("Removed Direction: " + d);
-        dir.Remove(d);
-        pos.Remove(v);
-    }
-    public void setDir(string d, Vector2 v)
-    {
-        dir[0] = d;
-        pos[0] = v;
-    }
-    public string returnDir()
-    {
-        if (dir.Count == 0)
-        {
-            return "NULL";
-        }
-        return dir[0];
-    }
-    public Vector2 returnPos()
-    {
-        if (pos.Count == 0)
-        {
-            return new Vector2(0f,0f);
-        }
-        return pos[0];
-    }
-    public void addEgg(GameObject go)
-    {
-       
-    }
     public void setCurrentDirection(string d)
     {
         currentDirection = d;

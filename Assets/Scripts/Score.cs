@@ -49,12 +49,15 @@ public class Score : MonoBehaviour {
             {
                 if (gameManager.getCurrentState() == "INSTRUCTIONS")
                 {
-                    if (Application.loadedLevelName == "Level1")
+                    if (gameManager.returnLevel() == 1)
                         t.text = "Help Cluckee as he scrambles to collect the eggs!";
-                    else if (Application.loadedLevelName == "Level2")
+                    else if (gameManager.returnLevel() == 2)
                         t.text = "Hey, good job! Try to collect 10 more!";
-                    else if (Application.loadedLevelName == "Level3")
-                        t.text = "don’t disturb her! She’ll be upset if you run into her; she will also take an egg from you if the eggs get in her way, so try to maneuver around her!";
+                    else if (gameManager.returnLevel() == 3)
+                    {
+                        t.text = "Welcome to level 3!";
+                    }
+                        //t.text = "don’t disturb her! She’ll be upset if you run into her; she will also take an egg from you if the eggs get in her way, so try to maneuver around her!";
                 }
                 else if (gameManager.getCurrentState() == "PLAYING")
                 {
