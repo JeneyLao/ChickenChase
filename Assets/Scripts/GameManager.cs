@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour {
     bool startSpawnEgg = true;
     GameObject[] gameObjects;
 
+    public GameObject cow;
+
     void Awake()
     {
         if (instance == null)
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour {
             GameObject.FindGameObjectWithTag("NextLevel").transform.position.y,
             -6);
         numberOfTurns = 0;
+
 
         currentEgg = GameObject.FindGameObjectWithTag("Chicken");
 
@@ -156,21 +159,81 @@ public class GameManager : MonoBehaviour {
                 //if (Application.loadedLevelName == "Level1")
                 if (level == 1)
                 {
-                    targetEggs = 3;
+                    targetEggs = 2;
                     //Application.LoadLevel("Level2");
                     //startSpawnEgg = true;
+                    for (int i = 0; i < row; i++)
+                    {
+                        for (int j = 0; j < col; j++)
+                        {
+                            if ((i == row / 4) && j > 20 && j < 30)
+                            {
+                                Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
+                                Instantiate(hay, pos1, transform.rotation);
+                                changeGrid(j, i, 1);
+                            }
+                        }
+                    }
                 }
                 //else if (Application.loadedLevelName == "Level2")
                 else if (level == 2)
                 {
-                    targetEggs = 5;
-                    //Application.LoadLevel("Level3");
+                    DestroyAllObjects("Hay");
+                    targetEggs = 3;
+                    for (int i = 0; i < row; i++)
+                    {
+                        for (int j = 0; j < col; j++)
+                        {
+                            if ((i == row / 4 || i == row * 3 / 4) && j > 10 && j < 40)
+                            {
+                                Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
+                                Instantiate(hay, pos1, transform.rotation);
+                                changeGrid(j, i, 1);
+                            }
+                        }
+                    }
+
                 }
-                DestroyAllObjects();
+                else if (level == 3)
+                {
+                    Debug.Log("WE'RE AT LEVEL 4 NOWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+                    DestroyAllObjects("Hay");
+                    targetEggs = 4;
+
+                    Vector3 pos1 = new Vector3(5 * pixel, 5 * pixel, 0f);
+                    Instantiate(cow, pos1, transform.rotation);
+                    changeGrid(5, 5, 1);
+                }
+                else if (level == 4)
+                {
+                    targetEggs = 5;
+                }
+                else if (level == 5)
+                {
+                    targetEggs = 6;
+                }
+                else if (level == 6)
+                {
+                    targetEggs = 7;
+                }
+                else if (level == 7)
+                {
+                    targetEggs = 8;
+                }
+                else if (level == 8)
+                {
+                    targetEggs = 9;
+                }
+                else if (level == 9)
+                {
+                    targetEggs = 10;
+                }
+                DestroyAllObjects("N");
                 level++;
             }
 
             //if (Application.loadedLevelName == "Level3" && count3 == 0)
+            /*
             if (level == 3 && count3 == 0)
             {
                 //Debug.Log("WENT INTO HERE FOR RESET HAHAHAHA");
@@ -189,12 +252,13 @@ public class GameManager : MonoBehaviour {
                 count3 = 1;
                 startSpawnEgg = true;
             }
+             */
         }
 	}
 
-    void DestroyAllObjects()
+    void DestroyAllObjects(string t)
     {
-        gameObjects = GameObject.FindGameObjectsWithTag("N");
+        gameObjects = GameObject.FindGameObjectsWithTag(t);
 
         for (var i = 0; i < gameObjects.Length; i++)
         {
