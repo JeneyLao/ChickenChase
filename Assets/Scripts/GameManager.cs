@@ -201,8 +201,9 @@ public class GameManager : MonoBehaviour {
                     targetEggs = 4;
 
                     Vector3 pos1 = new Vector3(5 * pixel, 5 * pixel, 0f);
-                    Instantiate(cow, pos1, transform.rotation);
+                    GameObject cow1 = Instantiate(cow, pos1, transform.rotation);
                     changeGrid(5, 5, 1);
+                    cow1.GetComponent<CharacterAnimations>().setVariables(1, 0, 400, 0.01f);
                 }
                 else if (level == 4)
                 {

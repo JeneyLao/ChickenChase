@@ -187,7 +187,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log("I COLLIDED WITH... " + other.gameObject.name);
+        Debug.Log("I COLLIDED WITH... " + other.gameObject.name);
         if (other.gameObject.name == "Egg2" || other.gameObject.name == "Egg2(Clone)")
         {
             gameManager.increaseScore();
