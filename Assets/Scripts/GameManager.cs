@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour {
     int numberOfEggs = 0;
     int targetEggs = 1;
 
-    int level = 1;
+    int level = 9;
     int count3 = 0;
 
     bool startSpawnEgg = true;
@@ -159,14 +159,13 @@ public class GameManager : MonoBehaviour {
                 //if (Application.loadedLevelName == "Level1")
                 if (level == 1)
                 {
-                    targetEggs = 2;
-                    //Application.LoadLevel("Level2");
-                    //startSpawnEgg = true;
+                    targetEggs = 5;
+
                     for (int i = 0; i < row; i++)
                     {
                         for (int j = 0; j < col; j++)
                         {
-                            if ((i == row / 4) && j > 20 && j < 30)
+                            if ((i == row / 4) && j > 10 && j < 40)
                             {
                                 Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
                                 Instantiate(hay, pos1, transform.rotation);
@@ -175,11 +174,93 @@ public class GameManager : MonoBehaviour {
                         }
                     }
                 }
-                //else if (Application.loadedLevelName == "Level2")
+
                 else if (level == 2)
                 {
                     DestroyAllObjects("Hay");
-                    targetEggs = 3;
+                    targetEggs = 5;
+
+                    for (int i = 0; i < row; i++)
+                    {
+                        for (int j = 0; j < col; j++)
+                        {
+                            if ((i == row / 4 || i == row * 3 / 4) && j > 10 && j < 40)
+                            {
+                                Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
+                                Instantiate(hay, pos1, transform.rotation);
+                                changeGrid(j, i, 1);
+                            }
+                        }
+                    }
+                }
+                else if (level == 3)
+                {
+                    DestroyAllObjects("Hay");
+                    targetEggs = 10;
+                    for (int i = 0; i < row; i++)
+                    {
+                        for (int j = 0; j < col; j++)
+                        {
+                            if ((i == row * 3/4 || i == row / 4) && j > 20 && j < 30)
+                            {
+                                Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
+                                Instantiate(hay, pos1, transform.rotation);
+                                changeGrid(j, i, 1);
+                            }
+                            if ((j == col * 3 / 4 || j == col / 4) && i > 10 && i < 18)
+                            {
+                                Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
+                                Instantiate(hay, pos1, transform.rotation);
+                                changeGrid(j, i, 1);
+                            }
+                        }
+                    }
+                }
+                else if (level == 4)
+                {
+                    DestroyAllObjects("Hay");
+                    targetEggs = 10;
+
+                    Vector3 pos1 = new Vector3(5 * pixel, 5 * pixel, 0f);
+                    GameObject cow1 = Instantiate(cow, pos1, transform.rotation);
+                    cow1.GetComponent<CharacterAnimations>().setVariables(1, 0, 500, 0.02f, false);
+
+                    Vector3 pos2 = new Vector3(44 * pixel, 23 * pixel, 0f);
+                    GameObject cow2 = Instantiate(cow, pos2, transform.rotation);
+                    cow2.GetComponent<CharacterAnimations>().setVariables(1, 0, 500, 0.02f, true);
+                }
+                else if (level == 5)
+                {
+                    DestroyAllObjects("Cow");
+                    targetEggs = 10;
+
+                    for (int i = 0; i < row; i++)
+                    {
+                        for (int j = 0; j < col; j++)
+                        {
+                            if ((j == col * 3 / 4 || j == col / 4) && i > 10 && i < 18)
+                            {
+                                Vector3 pos0 = new Vector3(j * pixel, i * pixel, 0f);
+                                Instantiate(hay, pos0, transform.rotation);
+                                changeGrid(j, i, 1);
+                            }
+                        }
+                    }
+
+                    Vector3 pos1 = new Vector3(5 * pixel, 5 * pixel, 0f);
+                    GameObject cow1 = Instantiate(cow, pos1, transform.rotation);
+                    cow1.GetComponent<CharacterAnimations>().setVariables(1, 0, 500, 0.02f, false);
+
+                    Vector3 pos2 = new Vector3(44 * pixel, 23 * pixel, 0f);
+                    GameObject cow2 = Instantiate(cow, pos2, transform.rotation);
+                    cow2.GetComponent<CharacterAnimations>().setVariables(1, 0, 500, 0.02f, true);
+                }
+                else if (level == 6)
+                {
+                    DestroyAllObjects("Hay");
+                    DestroyAllObjects("Cow");
+                    targetEggs = 15;
+
                     for (int i = 0; i < row; i++)
                     {
                         for (int j = 0; j < col; j++)
@@ -193,67 +274,118 @@ public class GameManager : MonoBehaviour {
                         }
                     }
 
-                }
-                else if (level == 3)
-                {
-                    Debug.Log("WE'RE AT LEVEL 4 NOWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
-                    DestroyAllObjects("Hay");
-                    targetEggs = 4;
+                    Vector3 pos2 = new Vector3(5 * pixel, 5 * pixel, 0f);
+                    GameObject cow1 = Instantiate(cow, pos2, transform.rotation);
+                    cow1.GetComponent<CharacterAnimations>().setVariables(0, 1, 170, 0.03f, false);
 
-                    Vector3 pos1 = new Vector3(5 * pixel, 5 * pixel, 0f);
-                    GameObject cow1 = Instantiate(cow, pos1, transform.rotation);
-                    changeGrid(5, 5, 1);
-                    cow1.GetComponent<CharacterAnimations>().setVariables(1, 0, 400, 0.01f);
-                }
-                else if (level == 4)
-                {
-                    targetEggs = 5;
-                }
-                else if (level == 5)
-                {
-                    targetEggs = 6;
-                }
-                else if (level == 6)
-                {
-                    targetEggs = 7;
+                    Vector3 pos3 = new Vector3(44 * pixel, 5 * pixel, 0f);
+                    GameObject cow2 = Instantiate(cow, pos3, transform.rotation);
+                    cow2.GetComponent<CharacterAnimations>().setVariables(0, 1, 170, 0.03f, false);
                 }
                 else if (level == 7)
                 {
-                    targetEggs = 8;
+                    DestroyAllObjects("Hay");
+                    DestroyAllObjects("Cow");
+                    targetEggs = 15;
+
+                    Vector3 pos0 = new Vector3(5 * pixel, 5 * pixel, 0f);
+                    GameObject cow0 = Instantiate(cow, pos0, transform.rotation);
+                    cow0.GetComponent<CharacterAnimations>().setVariables(1, 0, 500, 0.02f, false);
+
+                    Vector3 pos1 = new Vector3(44 * pixel, 10 * pixel, 0f);
+                    GameObject cow1 = Instantiate(cow, pos1, transform.rotation);
+                    cow1.GetComponent<CharacterAnimations>().setVariables(1, 0, 500, 0.02f, true);
+
+                    Vector3 pos2 = new Vector3(5 * pixel, 18 * pixel, 0f);
+                    GameObject cow2 = Instantiate(cow, pos2, transform.rotation);
+                    cow2.GetComponent<CharacterAnimations>().setVariables(1, 0, 500, 0.02f, false);
+
+                    Vector3 pos3 = new Vector3(44 * pixel, 23 * pixel, 0f);
+                    GameObject cow3 = Instantiate(cow, pos3, transform.rotation);
+                    cow3.GetComponent<CharacterAnimations>().setVariables(1, 0, 500, 0.02f, true);
+                
                 }
                 else if (level == 8)
                 {
-                    targetEggs = 9;
+                    DestroyAllObjects("Hay");
+                    DestroyAllObjects("Cow");
+                    targetEggs = 15;
+
+                    for (int i = 0; i < row; i++)
+                    {
+                        for (int j = 0; j < col; j++)
+                        {
+                            if ((i == row / 3 || i == row * 2 / 3) && ((j > 2 && j < 12) ||
+                                (j > 36 && j < 46)))
+                            {
+                                Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
+                                Instantiate(hay, pos1, transform.rotation);
+                                changeGrid(j, i, 1);
+                            }
+                            if ((j == 16 || j == 32) && ((i > 0 && i < 8) || (i > 19 && i < 27)))
+                            {
+                                Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
+                                Instantiate(hay, pos1, transform.rotation);
+                                changeGrid(j, i, 1);
+                            }
+                        }
+                    }
+
+                    Vector3 pos2 = new Vector3(14 * pixel, 23 * pixel, 0f);
+                    GameObject cow1 = Instantiate(cow, pos2, transform.rotation);
+                    cow1.GetComponent<CharacterAnimations>().setVariables(0, 1, 200, 0.02f, true);
+                    Vector3 pos3 = new Vector3(17 * pixel, 5 * pixel, 0f);
+                    GameObject cow2 = Instantiate(cow, pos3, transform.rotation);
+                    cow2.GetComponent<CharacterAnimations>().setVariables(0, 1, 200, 0.02f, false);
+                    Vector3 pos4 = new Vector3(31 * pixel, 23 * pixel, 0f);
+                    GameObject cow3 = Instantiate(cow, pos4, transform.rotation);
+                    cow3.GetComponent<CharacterAnimations>().setVariables(0, 1, 200, 0.02f, true);
+                    Vector3 pos5 = new Vector3(33 * pixel, 5 * pixel, 0f);
+                    GameObject cow4 = Instantiate(cow, pos5, transform.rotation);
+                    cow4.GetComponent<CharacterAnimations>().setVariables(0, 1, 200, 0.02f, false);
                 }
                 else if (level == 9)
                 {
-                    targetEggs = 10;
+                    DestroyAllObjects("Hay");
+                    DestroyAllObjects("Cow");
+                    targetEggs = 20;
+
+                    for (int i = 0; i < row; i++)
+                    {
+                        for (int j = 0; j < col; j++)
+                        {
+                            if ((i == row / 3 || i == row * 2 / 3) && ((j > 2 && j < 12) || (j > 20 && j < 28) ||
+                                (j > 36 && j < 46)))
+                            {
+                                Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
+                                Instantiate(hay, pos1, transform.rotation);
+                                changeGrid(j, i, 1);
+                            }
+                            if ((j == 16 || j == 32) && ((i > 0 && i < 8) || (i > 10 && i < 17) || (i > 19 && i < 27)))
+                            {
+                                Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
+                                Instantiate(hay, pos1, transform.rotation);
+                                changeGrid(j, i, 1);
+                            }
+                        }
+                    }
+
+                    Vector3 pos3 = new Vector3(17 * pixel, 5 * pixel, 0f);
+                    GameObject cow2 = Instantiate(cow, pos3, transform.rotation);
+                    cow2.GetComponent<CharacterAnimations>().setVariables(0, 1, 170, 0.03f, false);
+                    Vector3 pos4 = new Vector3(31 * pixel, 23 * pixel, 0f);
+                    GameObject cow3 = Instantiate(cow, pos4, transform.rotation);
+                    cow3.GetComponent<CharacterAnimations>().setVariables(0, 1, 170, 0.03f, true);
                 }
+
+                else if (level == 10)
+                {
+                    Debug.Log("You win!");
+                }
+
                 DestroyAllObjects("N");
                 level++;
             }
-
-            //if (Application.loadedLevelName == "Level3" && count3 == 0)
-            /*
-            if (level == 3 && count3 == 0)
-            {
-                //Debug.Log("WENT INTO HERE FOR RESET HAHAHAHA");
-                for (int i = 0; i < row; i++)
-                {
-                    for (int j = 0; j < col; j++)
-                    {
-                        if ((i == row / 4 || i == row * 3 / 4) && j > 10 && j < 40)
-                        {
-                            Vector3 pos1 = new Vector3(j * pixel, i * pixel, 0f);
-                            Instantiate(hay, pos1, transform.rotation);
-                            changeGrid(j, i, 1);
-                        }
-                    }
-                }
-                count3 = 1;
-                startSpawnEgg = true;
-            }
-             */
         }
 	}
 

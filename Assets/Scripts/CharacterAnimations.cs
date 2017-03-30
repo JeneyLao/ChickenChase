@@ -10,7 +10,7 @@ public class CharacterAnimations : MonoBehaviour {
     float speed;
 
     int count = 0;
-    bool turn = false;
+    bool turn;
 
 
     private Animator animator;
@@ -44,7 +44,7 @@ public class CharacterAnimations : MonoBehaviour {
         {
             //Debug.Log("X is 1! Moving left");
             this.transform.Translate(-speed, 0, 0);
-            count--;
+            count++;
             animator.SetInteger("AnimationState", 3);
             AnimationState = 3;
             bc[0].enabled = false;
@@ -54,7 +54,7 @@ public class CharacterAnimations : MonoBehaviour {
         else if (y == 1 && !turn)
         {
             //Debug.Log("Y is 1! Moving up");
-            this.transform.Translate(speed, 0, 0);
+            this.transform.Translate(0, speed, 0);
             count++;
             animator.SetInteger("AnimationState", 1);
             AnimationState = 1;
@@ -65,8 +65,8 @@ public class CharacterAnimations : MonoBehaviour {
         else if (y == 1 && turn)
         {
             //Debug.Log("Y is 1! Moving down");
-            this.transform.Translate(-speed, 0, 0);
-            count--;
+            this.transform.Translate(0, -speed, 0);
+            count++;
             animator.SetInteger("AnimationState", 5);
             AnimationState = 5;
             bc[0].enabled = true;
@@ -76,18 +76,15 @@ public class CharacterAnimations : MonoBehaviour {
         if (count == count2)
         {
             //Debug.Log("Turn is true!!");
-            turn = true;
+            if (turn)
+                turn = false;
+            else
+                turn = true;
+            count = 0;
         }
-        if (count == 0)
-        {
-            //Debug.Log("Turn is false!!");
-            turn = false;
-        }
-        
-            
 	}
 
-    public void setVariables(int x1, int y1, int count3, float speed2)
+    public void setVariables(int x1, int y1, int count3, float speed2, bool turn2)
     {
         //Debug.Log("x: " + x + ", x1: " + x1);
         //Debug.Log("y: " + y + ", y1: " + y1);
@@ -97,6 +94,7 @@ public class CharacterAnimations : MonoBehaviour {
         y = y1;
         count2 = count3;
         speed = speed2;
+        turn = turn2;
         //Debug.Log("AFTERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
         //Debug.Log("x: " + x + ", x1: " + x1);
         //Debug.Log("y: " + y + ", y1: " + y1);
