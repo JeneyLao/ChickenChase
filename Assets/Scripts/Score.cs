@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour {
 
     Text t;
-
     GameManager gameManager;
 
     int turns;
@@ -16,14 +15,13 @@ public class Score : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //Debug.Log("SCORE SCRIPT START");
         gameManager = GameManager.instance;
         t = GetComponent<Text>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Application.loadedLevelName != "GameOver")
+        if (Application.loadedLevelName != "GameOver" && Application.loadedLevelName != "Won")
         {
             if (t.gameObject.tag == "NumberOfTurns")
             {
@@ -32,8 +30,16 @@ public class Score : MonoBehaviour {
             }
             else if (t.gameObject.tag == "NumberOfEggs")
             {
-                t.text = "" + gameManager.returnNumberOfEggs() + "/" + gameManager.returnTargetEggs();
-                eggs = gameManager.returnScore();
+                if (Application.loadedLevelName != "Endless")
+                {
+                    t.text = "" + gameManager.returnNumberOfEggs() + "/" + gameManager.returnTargetEggs();
+                    eggs = gameManager.returnScore();
+                }
+                else
+                {
+                    t.text = "" + gameManager.returnNumberOfEggs();
+                    eggs = gameManager.returnScore();
+                }
             }
             else if (t.gameObject.tag == "Score")
             {
@@ -50,22 +56,25 @@ public class Score : MonoBehaviour {
                 if (gameManager.getCurrentState() == "INSTRUCTIONS")
                 {
                     if (gameManager.returnLevel() == 1)
-                        t.text = "Help Cluckee as he scrambles to collect the eggs!";
+                        t.text = "Level 1\nHelp Cluckee as he scrambles to collect the eggs!";
                     else if (gameManager.returnLevel() == 2)
-                        t.text = "Hey, good job! Try to collect 10 more!";
+                        t.text = "Level 2\nHey, good job! Be careful, don't hit the hay!";
                     else if (gameManager.returnLevel() == 3)
-                    {
-                        t.text = "Welcome to level 3!";
-                    }
+                        t.text = "Level 3\nThere's some more hay. Be sure not to hit any of them!";
                     else if (gameManager.returnLevel() == 4)
-                        t.text = "Level4 now!";
+                        t.text = "Level 4\nAnd even more hay! I wonder where they're coming from.";
                     else if (gameManager.returnLevel() == 5)
-                        t.text = "Hey, good job! Level 5 nowwww";
+                        t.text = "Level 5\nLooks like some cows are on their lunch break. Don't bother them!";
                     else if (gameManager.returnLevel() == 6)
-                        t.text = "Hey, good LEVEL 6!!";
+                        t.text = "Level 6\nJust your regular day with cows and piles of hay.";
                     else if (gameManager.returnLevel() == 7)
-                        t.text = "Level 7!";
-                        //t.text = "don’t disturb her! She’ll be upset if you run into her; she will also take an egg from you if the eggs get in her way, so try to maneuver around her!";
+                        t.text = "Level 7\nLooks like these cows and piles of hay just love to ruin your egg-collecting days.";
+                    else if (gameManager.returnLevel() == 8)
+                        t.text = "Level 8\nThank goodness! No more hay, but there seems to be more cows!";
+                    else if (gameManager.returnLevel() == 9)
+                        t.text = "Level 9\nOh no, the piles of hay are back!";
+                    else if (gameManager.returnLevel() == 10)
+                        t.text = "Level 10\nWow, you made it to the last level! Can you beat it?";
                 }
                 else if (gameManager.getCurrentState() == "PLAYING")
                 {

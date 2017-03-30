@@ -12,7 +12,6 @@ public class CharacterAnimations : MonoBehaviour {
     int count = 0;
     bool turn;
 
-
     private Animator animator;
     private int AnimationState;
 
@@ -22,13 +21,11 @@ public class CharacterAnimations : MonoBehaviour {
 	void Start () {
         AnimationState = 0;
         animator = this.GetComponent<Animator>();
-
         bc = gameObject.GetComponents<BoxCollider2D>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //Debug.Log(count);
         if (x == 1 && !turn)
         {
             //Debug.Log("X is 1! Moving right");
@@ -75,7 +72,6 @@ public class CharacterAnimations : MonoBehaviour {
         }
         if (count == count2)
         {
-            //Debug.Log("Turn is true!!");
             if (turn)
                 turn = false;
             else
@@ -86,19 +82,10 @@ public class CharacterAnimations : MonoBehaviour {
 
     public void setVariables(int x1, int y1, int count3, float speed2, bool turn2)
     {
-        //Debug.Log("x: " + x + ", x1: " + x1);
-        //Debug.Log("y: " + y + ", y1: " + y1);
-        //Debug.Log("count3: " + count3);
-        //Debug.Log("speed: " + speed + ", speed2: " + speed2);
         x = x1;
         y = y1;
         count2 = count3;
         speed = speed2;
         turn = turn2;
-        //Debug.Log("AFTERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
-        //Debug.Log("x: " + x + ", x1: " + x1);
-        //Debug.Log("y: " + y + ", y1: " + y1);
-        //Debug.Log("count3: " + count3);
-        //Debug.Log("speed: " + speed + ", speed2: " + speed2);
     }
 }

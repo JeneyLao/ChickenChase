@@ -14,17 +14,11 @@ public class SpawnEgg : MonoBehaviour
 
     string currentDirection;
     bool m;
-
     bool follow;
-
     int count = 0;
-
     string head;
-
     string d;
-
     int c = 0;
-
     int frames = 0;
 
     Random rnd;
@@ -77,7 +71,7 @@ public class SpawnEgg : MonoBehaviour
                     }
                 }
             }
-            if (GameObject.FindGameObjectWithTag("Egg2") == null && gameManager.returnStartSpawnEgg())
+            if (GameObject.FindGameObjectWithTag("Egg") == null && gameManager.returnStartSpawnEgg())
             {
                 bool doNotExitLoop = true;
                 Vector2 pos1 = new Vector2(Random.Range(2, 46), Random.Range(2, 26));
@@ -90,7 +84,7 @@ public class SpawnEgg : MonoBehaviour
                     }
                 }
                 Instantiate(egg, new Vector2(pos1.x * pixel, pos1.y * pixel), transform.rotation);
-                GameObject.FindGameObjectWithTag("Egg2").GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
+                GameObject.FindGameObjectWithTag("Egg").GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
                 ex = (int)pos1.x;
                 ey = (int)pos1.y;
                 gameManager.changeGrid(ex, ey, 1);
@@ -106,17 +100,13 @@ public class SpawnEgg : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        //Destroy(this.gameObject);
-        if (this.gameObject.name == "Egg2(Clone)")
+        if (this.gameObject.name == "Egg(Clone)")
         {
             head = gameManager.returnCurrentTag();
             follow = true;
-            this.gameObject.tag = "N";// +gameManager.returnScore();
+            this.gameObject.tag = "N";
             this.gameObject.name = "N" + gameManager.returnScore();
-
             gameManager.setCurrentEgg(this.gameObject);
-        }
-
-        //gameManager.setCurrentEgg(this.gameObject);        
+        }    
     }
 }

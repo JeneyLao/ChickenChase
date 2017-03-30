@@ -16,9 +16,17 @@ public class ChangeScene : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (sceneName == "Start2")
+            if (Application.loadedLevelName != "Instructions" && sceneName == "Start2")
                 gameManager.resetPoints();
             Application.LoadLevel(sceneName);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Application.LoadLevel("Instructions");
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Application.LoadLevel("Endless");
         }
 	}
 }

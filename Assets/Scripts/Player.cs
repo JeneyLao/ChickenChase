@@ -6,9 +6,7 @@ using System;
 using System.IO;
 public class Player : MonoBehaviour
 {
-
     private GameManager gameManager;
-
     private Animator animator;
     private int AnimationState;
 
@@ -25,47 +23,25 @@ public class Player : MonoBehaviour
     private string direction;
 
     int count = 0;
-
-
     float pixel = 0.25f;
-
     float cx;
     float cy;
-
-   // public static Player2 instance;
-    
 
     //default is 0.03f
     public float speed;
 
-    
-    /*
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(this);
-        }
-    }
-     */
-     
-
-
     // Use this for initialization
     void Start()
     {
-        //Debug.Log("PLAYER START");
         gameManager = GameManager.instance;
         AnimationState = 0;
         animator = this.GetComponent<Animator>();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Application.loadedLevelName != "GameOver")
+        if (Application.loadedLevelName != "GameOver" && Application.loadedLevelName != "Won")
         {
             if (gameManager.getCurrentState() == "INSTRUCTIONS")
             {
@@ -75,42 +51,35 @@ public class Player : MonoBehaviour
             }
             else if (gameManager.getCurrentState() == "PLAYING")
             {
-                // && gameManager.returnPlayerXY().y*pixel != this.gameObject.transform.position.y
-                //gameObject.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f), Random.Range(0.5f, 1f), 1);
                 if (gameManager.getCurrentEgg() != this.gameObject)
                 {
-                    //Debug.Log((int)gameManager.returnPlayerXY().x + ", " +   (int)gameManager.returnPlayerXY().y);
-                    if (Input.GetKeyDown(KeyCode.W) && direction != "DOWN")//&& gameManager.returnGridNum((int)gameManager.returnPlayerXY().x, (int)gameManager.returnPlayerXY().y+1) == 0)
+                    if (Input.GetKeyDown(KeyCode.W) && direction != "DOWN")
                     {
                         direction = "UP";
                         animator.SetInteger("AnimationState", 1);
                         AnimationState = 1;
-                        //   Debug.Log("Pressed W");
                         gameManager.increaseNumberOfTurns();
                     }
-                    else if (Input.GetKeyDown(KeyCode.A) && direction != "RIGHT")//&& gameManager.returnGridNum((int)gameManager.returnPlayerXY().x-1, (int)gameManager.returnPlayerXY().y) == 0)
+                    else if (Input.GetKeyDown(KeyCode.A) && direction != "RIGHT")
                     {
                         direction = "LEFT";
                         animator.SetInteger("AnimationState", 3);
                         AnimationState = 3;
-                        //  Debug.Log("Pressed A");
                         gameManager.increaseNumberOfTurns();
                     }
-                    else if (Input.GetKeyDown(KeyCode.S) && direction != "UP")//&& gameManager.returnGridNum((int)gameManager.returnPlayerXY().x, (int)gameManager.returnPlayerXY().y-1) == 0)
+                    else if (Input.GetKeyDown(KeyCode.S) && direction != "UP")
                     {
                         direction = "DOWN";
                         animator.SetInteger("AnimationState", 5);
                         AnimationState = 5;
-                        //  Debug.Log("Pressed S");
                         gameManager.increaseNumberOfTurns();
 
                     }
-                    else if (Input.GetKeyDown(KeyCode.D) && direction != "LEFT")//&& gameManager.returnGridNum((int)gameManager.returnPlayerXY().x+1, (int)gameManager.returnPlayerXY().y) == 0)
+                    else if (Input.GetKeyDown(KeyCode.D) && direction != "LEFT")
                     {
                         direction = "RIGHT";
                         animator.SetInteger("AnimationState", 7);
                         AnimationState = 7;
-                        // Debug.Log("Pressed D");
                         gameManager.increaseNumberOfTurns();
                     }
                 }
@@ -121,11 +90,6 @@ public class Player : MonoBehaviour
                         direction = "UP";
                         animator.SetInteger("AnimationState", 1);
                         AnimationState = 1;
-                        //  Debug.Log("Pressed W");
-                        //Debug.Log(gameManager.returnScore());
-                        //gameManager.printGrid();
-
-                        //gameManager.move(this.gameObject, "UP");
                         gameManager.increaseNumberOfTurns();
                     }
                     else if (Input.GetKeyDown(KeyCode.A) && direction != "RIGHT")
@@ -133,9 +97,6 @@ public class Player : MonoBehaviour
                         direction = "LEFT";
                         animator.SetInteger("AnimationState", 3);
                         AnimationState = 3;
-                        //   Debug.Log("Pressed A");
-                        //gameManager.printGrid();
-                        //gameManager.move(this.gameObject, "LEFT");
                         gameManager.increaseNumberOfTurns();
                     }
                     else if (Input.GetKeyDown(KeyCode.S) && direction != "UP")
@@ -143,9 +104,6 @@ public class Player : MonoBehaviour
                         direction = "DOWN";
                         animator.SetInteger("AnimationState", 5);
                         AnimationState = 5;
-                        //   Debug.Log("Pressed S");
-                        // gameManager.printGrid();gameManager.move(this.gameObject, "UP");
-                        // gameManager.move(this.gameObject, "DOWN");
                         gameManager.increaseNumberOfTurns();
 
                     }
@@ -154,13 +112,9 @@ public class Player : MonoBehaviour
                         direction = "RIGHT";
                         animator.SetInteger("AnimationState", 7);
                         AnimationState = 7;
-                        //   Debug.Log("Pressed D");
-                        //gameManager.printGrid();
-                        //gameManager.move(this.gameObject, "RIGHT");
                         gameManager.increaseNumberOfTurns();
                     }
                 }
-
 
                 if (gameManager.returnCount() == 5)
                 {
@@ -170,32 +124,25 @@ public class Player : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        //Debug.Log("UGHH ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
                     }
                 }
-                // Debug.Log("PLAYERRRR COUNT: " + count);
             }
         }
         else
         {
-            Debug.Log("Destroyed Player!");
             Destroy(this.gameObject);
         }
-       
     }
-
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("I COLLIDED WITH... " + other.gameObject.name);
-        if (other.gameObject.tag == "Egg2")
+        if (other.gameObject.tag == "Egg")
         {
             gameManager.increaseScore();
             gameManager.returnScore();
         }
         else
         {
-            Debug.Log("YOU LOST");
             gameManager.reset();
             Destroy(this.gameObject);
             Application.LoadLevel("GameOver");
